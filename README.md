@@ -3,18 +3,20 @@ A simple text formatting command-line tool. The word 'text' here can be rather m
 M-Format fixes spacing problems and corrects basic sentence structuring errors.
 
 M-Format is a Python-based text formatting tool which can be used to eliminate the following:
-*unnecessary whitespaces
-*extra empty lines
-*trailing whitespaces
-*multiple consecutive chars
+* unnecessary whitespaces
+* extra empty lines
+* trailing whitespaces
+* multiple consecutive chars
+
 It also takes care of:
-*capitalization
-*adding spaces (after punctuation marks)
-*removing spaces (before punctuation marks)
+* capitalization
+* adding spaces (after punctuation marks)
+* removing spaces (before punctuation marks)
+
 Other options include:
-*removing references (any [num])
-*removing HTML tags
-*removing duplicate lines (upcoming)
+* removing references (any [num])
+* removing HTML tags
+* removing duplicate lines (upcoming)
 
 ```
 Usage: python mformat.py [OPTIONS] [INPUT_FILE] [OUTPUT_FILE]
