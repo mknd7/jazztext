@@ -20,6 +20,8 @@ Simple format:
 
 *capitalize all 'I's (first-person words - I, I'm) (perhaps as an option only)
 
+*ensure ellipsis correction (*hard)
+
 *when i.e. or etc. is found with incorrect usage, correct it
 
 *ensure space before parentheses and after (if sentence does not end)

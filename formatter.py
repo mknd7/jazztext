@@ -13,9 +13,9 @@ def mformat_default(input, output):
             else:
                 s = simple_format(line)
                 if s[0] not in newlines:
-                    # remove extra white space at line end
-                    if s[-2] == ' ':
-                        op.write(s[:-2] + '\n')
+                    if s[-3] == ' ':
+                        s = s[:-3] + s[-2:]
+                        op.write(s)
                     else:
                         op.write(s)
                     prev_line = s
@@ -24,9 +24,9 @@ def mformat_default(input, output):
 def simple_format(line):
     res = ''                                            # formatted string for each line
     first_letter = False                                # first letter occurence for every sentence in a line
-    punc_marks_capitalize = ['.','!','?']               # marks after which the first letter must be capitalized
-    punc_marks_normal = [',',':',';','%']               # other punctuation marks
-    newlines = ['\n','\r']                              # newline characters
+    punc_marks_capitalize = ['.','!','?']
+    punc_marks_normal = [',',':',';','%']
+    newlines = ['\n','\r']
 
     # list of all punctuation marks
     punc_marks_all = punc_marks_capitalize + punc_marks_normal
@@ -43,15 +43,8 @@ def simple_format(line):
             if line[i].isalnum():
                 res += line[i].upper()
             else:
-                if line[i] in ['.','(',')']:
-                    if line[i] == '.':
-                        if res[-3:] != '...':
-                            res += '.'
-                    else:
-                        res += line[i]
-                    # for ellipsis
-                    if line[i + 1] == ' ':
-                        res += ' '
+                if line[i] in ['(',')','[',']','"',"'"]:
+                    res += line[i]
                 elif line[i] in punc_marks_all and line[i + 1] in newlines:
                     res += line[i]
                 # to eliminate duplicates
@@ -61,13 +54,22 @@ def simple_format(line):
 
         # first letter has already occured
         elif first_letter:
-            # if any char in ['.','!','?'] is encountered
+            # any char in ['.','!','?']
             if line[i] in punc_marks_capitalize:
-                if line[i] == '.' and line[i-3 : i] == 'etc':
-                    res += '.'
-                    i += 1
-                    continue
                 first_letter = False
+            # for 'etc.'
+            if line[i] == '.' and line[i-3 : i] == 'etc':
+                first_letter = True
+                res += '.'
+                i += 1
+                continue
+            # for ellipsis (...)
+            if line[i : i + 3] == '...':
+                first_letter = True
+                if res[-3:] != '...':
+                    res += '...'
+                i += 3
+                continue
             # if any punctuation mark is encountered
             if line[i] in punc_marks_all:
                 # to eliminate duplicates
@@ -83,7 +85,7 @@ def simple_format(line):
                             i += 1
                             continue
                 if i + 1 < len(line):
-                    if line[i + 1] not in newlines + ['.',')'] and res[-1] != ' ':
+                    if line[i + 1] not in newlines + ['.',')',']','"',"'"] and res[-1] != ' ':
                         res += ' '
 
             # for any other character or phrases
@@ -100,6 +102,7 @@ def simple_format(line):
                     i += 3
                 elif line[i : i + 2] == 'i.':
                     res += line[i].upper()
+                # for handling parens
                 elif line[i] == '(':
                     if res[-1] == ' ':
                         res += '('
