@@ -1,0 +1,28 @@
+ this is a test file .   it used to be riddled with various errors. now it is  perfectly fine.
+
+   
+  
+%
+
+right ?   
+
+hopefully,yes.i think i'm gonna   name this 'mformat'... sound good   ?(no?). Let me make this  sentence a bit longer.........
+this is a random number which i have typed and must look alright-7,657,342  .
+and this is a percentage - 78  %(means 78 per  cent) .  
+
+???    
+   
+
+!
+
+the computer is no better than i . it is i who must teach it how to think  !   
+
+    now for the tough parts  !!!  the usage of ie. and etc. must be proper here. what is this  ? 
+i wonder ,,,why are  these numbers here   ?2, 56,24,2222, 24
+here  ,you must not be able to see any references[56] at all[2][3] [78]. 
+
+
+try some tags maybe???? but they <tag>   shoudn't  </tag> be here <tag>though </tag>  .  
+
+  
+   
