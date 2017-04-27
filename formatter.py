@@ -74,14 +74,25 @@ def simple_format(line):
             if line[i] in punc_marks_all:
                 # to eliminate duplicates
                 if len(res) >= 2:
-                    if res[-2] == line[i]:
+                    if res[-2] == line[i] and res[-1] == ' ':
                         i += 1
                         continue
                 res += line[i]
-                # ignore comma spaces for commas between numbers (eg. 7,000)
+                # ignore comma spaces for commas between digits (eg. 7,000)
                 if line[i] == ',':
                     if i + 1 < len(line):
-                        if line[i + 1].isdigit() or line[i + 1] == ' ':
+                        if line[i + 1].isdigit():
+                            i += 1
+                            continue
+                # do not add spaces between version number digits (eg. v. 1.0)
+                elif line[i] == '.':
+                    if i + 1 < len(line):
+                        if line[i - 1].isdigit() and line[i + 1].isdigit():
+                            first_letter = True
+                            i += 1
+                            continue
+                        elif line[i - 1].isdigit() and line[i + 1] == 'x':
+                            first_letter = True
                             i += 1
                             continue
                 if i + 1 < len(line):
@@ -97,12 +108,30 @@ def simple_format(line):
                 elif line[i : i + 4] == 'i.e.' or line[i : i + 4] == 'i.e ':
                     res += 'i.e. '
                     i += 4
+                    continue
                 elif line[i : i + 3] == 'ie.':
                     res += 'i.e. '
                     i += 3
+                    continue
+                elif line[i : i + 4] == 'e.g.' or line[i : i + 4] == 'e.g ':
+                    res += 'e.g. '
+                    i += 4
+                    continue
+                elif line[i : i + 3] == 'eg.':
+                    res += 'e.g. '
+                    i += 3
+                    continue
+                elif line[i : i + 2] == 'v.':
+                    res += 'v.'
+                    i += 2
+                    continue
                 elif line[i : i + 2] == 'i.':
                     res += line[i].upper()
                 # for handling parens
+                elif line[i : i + 2] == '()':
+                    res += '()'
+                    i += 2
+                    continue
                 elif line[i] == '(':
                     if res[-1] == ' ':
                         res += '('
