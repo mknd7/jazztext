@@ -7,14 +7,15 @@ import formatter
 def display_help():
     print "Usage: python mformat.py [OPTIONS] [INPUT_FILE] [OUTPUT_FILE]"
     print "Format and correct simple errors in a txt file."
-    print "Note: Chaining of options is not permitted. For eg. -rts"
-    print "Example: python mformat.py -r essay.txt essay-edited.txt\n"
-    print "  -s, --simple           perform simple format (default), not"
-    print "                         default if other options are included"
-    print "  -r, --references       remove references, i.e. any '[no.]'"
+    print "Example: python mformat.py -s -r essay.txt essay-edited.txt\n"
+    print "  -s, --simple           perform simple format (default)"
+    print "  -r, --references       remove references, i.e. any '[x]'"
+    print "  -d, --duplicates       remove duplicate lines (not sentences)"
     print "  -t, --tags             remove HTML tags"
-    print "  -d, --duplicates       remove duplicate lines"
     print "  -h, --help             view this help file\n"
+    print "Note: Chaining of options is not permitted; eg. -tdr"
+    print "Simple format will always be performed last, and"
+    print "must be specified if other options are included."
 
 # check if command usage is correct
 try:
@@ -62,7 +63,7 @@ else:
             exit()
         if arg != '-s' and arg != '--simple':
             formatter.mformat_other(output_file, arg)
-    # perform simple format if specified
+    # perform simple format last if specified
     if '-s' in sys.argv or '--simple' in sys.argv:
         os.rename(output_file, 'temp.txt')
         formatter.mformat_default('temp.txt', output_file)

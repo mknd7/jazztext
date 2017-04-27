@@ -131,14 +131,27 @@ def remove_blocks(output, removal_block):
             else:
                 op.write(line)
 
+# remove duplicate lines (not sentences)
+def remove_dups(output):
+    lines = []
+    with open('temp.txt','r') as ip, open(output,'w') as op:
+        for line in ip:
+            if line not in lines:
+                op.write(line)
+                lines.append(line)
+            elif line[0] in ['\r','\n']:
+                op.write(line)
+
 # perform other operations based on command options
 def mformat_other(output, arg):
     os.rename(output, 'temp.txt')
     removal_block = ''
     if arg == '-r' or arg == '--references':
-        removal_block = '\[\d+\]'
+        removal_block = '\[.*?\]'
         remove_blocks(output, removal_block)
     if arg == '-t' or arg == '--tags':
         removal_block = '<.*?>'
         remove_blocks(output, removal_block)
+    if arg == '-d' or arg == '--duplicates':
+        remove_dups(output)
     os.remove('temp.txt')
