@@ -1,43 +1,37 @@
 import re
-import os
 
 # defaut format (no options in command)
 def mformat_default(input, output):
     with open(input,'r') as ip, open(output,'w') as op:
         newlines = ['\n','\r']
-        prev_line = None
+        newline = False
         for line in ip:
-            if line[0] in newlines and line != prev_line:
-                op.write(line)
-                prev_line = line
-            else:
-                s = simple_format(line)
-                if s[0] not in newlines:
-                    if s[-3] == ' ':
-                        s = s[:-3] + s[-2:]
-                        op.write(s)
-                    else:
-                        op.write(s)
-                    prev_line = s
+            line.expandtabs(4)
+            if line[0] not in newlines:
+                line = line.strip()
+            if line:
+                if line[0] in newlines:
+                    if not newline:
+                        op.write(line)
+                        newline = True
+                else:
+                    s = simple_format(line)
+                    s = s.strip()
+                    op.write(s + '\n')
+                    newline = False
 
 # perform a simple format
 def simple_format(line):
     res = ''                                            # formatted string for each line
     punc_marks_all = ['.','!','?',',',':',';','%']
-    newlines = ['\n','\r']
 
     # loop over every character in line
     i = 0
     while i < len(line):
-        if line[i] in newlines:
-            res += line[i]
         # for handling a single space
-        elif line[i] == ' ':
-            if i + 1 < len(line):
-                if line[i + 1] not in punc_marks_all + [' ']:
-                    if len(res) >= 1:
-                        if res[-1] != ' ':
-                            res += ' '
+        if line[i] == ' ':
+            if line[i + 1] not in punc_marks_all + [' '] and res[-1] != ' ':
+                res += ' '
         elif line[i] in punc_marks_all:
             # for ellipsis (...)
             if line[i : i + 3] == '...':
@@ -68,7 +62,7 @@ def simple_format(line):
                         continue
             # single space after punctuation mark
             if i + 1 < len(line):
-                if line[i + 1] not in newlines + [')',']','"',"'"] and line[i + 1 : i + 4] != 'NET':
+                if line[i + 1] not in [')',']','"',"'"] and line[i + 1 : i + 4] != 'NET':
                     if res[-1] != ' ':
                         res += ' '
         # for any other character or phrases
@@ -147,16 +141,24 @@ def remove_dups(output):
             elif line[0] in ['\r','\n']:
                 op.write(line)
 
+# remove all newlines
+def remove_newlines(output):
+    with open('temp.txt','r') as ip, open(output,'w') as op:
+        for line in ip:
+            line = line.expandtabs(4)
+            line = line.strip()
+            op.write(line)
+
 # perform other operations based on command options
 def mformat_other(output, arg):
-    os.rename(output, 'temp.txt')
     removal_block = ''
     if arg == '-r' or arg == '--references':
         removal_block = '\[.*?\]'
         remove_blocks(output, removal_block)
-    if arg == '-t' or arg == '--tags':
+    elif arg == '-t' or arg == '--tags':
         removal_block = '<.*?>'
         remove_blocks(output, removal_block)
-    if arg == '-d' or arg == '--duplicates':
+    elif arg == '-d' or arg == '--duplicates':
         remove_dups(output)
-    os.remove('temp.txt')
+    elif arg == '-n' or arg == '--newlines':
+        remove_newlines(output)
