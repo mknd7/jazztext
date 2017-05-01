@@ -1,17 +1,17 @@
-# M-Format
-A simple text formatting command-line tool. The word 'text' here can be misleading;
-M-Format fixes spacing problems and corrects basic sentence structuring errors.
+# MkndFormat
+A simple Python-based text formatting command-line tool. The word 'text' here can be misleading;
+MkndFormat fixes spacing problems and corrects basic sentence structuring errors.
 
-M-Format is a Python-based text formatting tool which can be used to eliminate the following:
+MkndFormat is a text formatting tool which can be used to eliminate the following:
 * unnecessary whitespaces
 * extra empty lines
 * trailing whitespaces
-* multiple consecutive chars
+* consecutive punctuation marks
 
 It also takes care of:
-* capitalization
 * adding spaces (after punctuation marks)
 * removing spaces (before punctuation marks)
+* correct usage of common phrases (like e.g.)
 
 Other options include:
 * removing references (any [x])
@@ -26,6 +26,7 @@ Example: python mformat.py -s -r essay.txt essay-edited.txt
   -s, --simple           perform simple format (default)
   -r, --references       remove references, i.e. any '[x]'
   -d, --duplicates       remove duplicate lines (not sentences)
+  -n, --newlines         remove all newlines
   -t, --tags             remove HTML tags
   -h, --help             view this help file
 
