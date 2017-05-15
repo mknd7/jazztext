@@ -147,7 +147,7 @@ def remove_newlines(output):
         for line in ip:
             line = line.expandtabs(4)
             line = line.strip()
-            op.write(line)
+            op.write(line + ' ')
 
 # perform other operations based on command options
 def mformat_other(output, arg):
