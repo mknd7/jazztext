@@ -34,6 +34,8 @@ Simple format will always be performed last, and
 must be specified if other options are included.
 ````
 
+Go [HERE](./IDEAS.MD) for a general scratchpad of ideas (current and future)
+
 ### TODO:
 
 - ~~Give it a proper name!~~
