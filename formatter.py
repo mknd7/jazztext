@@ -1,7 +1,7 @@
 import re
 
 # defaut format (no options in command)
-def mformat_default(input, output):
+def jazztext_default(input, output):
     with open(input,'r') as ip, open(output,'w') as op:
         newlines = ['\n','\r']
         newline = False
@@ -150,7 +150,7 @@ def remove_newlines(output):
             op.write(line + ' ')
 
 # perform other operations based on command options
-def mformat_other(output, arg):
+def jazztext_other(output, arg):
     removal_block = ''
     if arg == '-r' or arg == '--references':
         removal_block = '\[.*?\]'
